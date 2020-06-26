@@ -1,7 +1,18 @@
 let __ = undefined;
-
-xdescribe('ES5 class', () => {
+describe('ES5 class', () => {
   // Declare and implement the Human class using Pseudoclassical Instantiation
+  function Human(name, age = 0) {
+    this.name = name;
+    this.age = age;
+  }
+
+  Human.prototype.walk = function () {
+    console.log('walk');
+  };
+
+  Human.inject = function () {
+    return [];
+  };
 
   it('should be prototype linked ', () => {
     let human = new Human();
@@ -32,6 +43,18 @@ xdescribe('ES5 class', () => {
 });
 describe('ES6 class', () => {
   // Declare and implement the Man class to satisfy all assertions below
+  class Human {
+    constructor(name, age = 0) {
+      this.name = name;
+      this.age = age;
+    }
+    walk() {
+      console.log('walk');
+    }
+    static inject() {
+      return [];
+    }
+  }
 
   it('should be prototype linked ', () => {
     let human = new Human();

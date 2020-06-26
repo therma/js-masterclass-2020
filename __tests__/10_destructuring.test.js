@@ -1,6 +1,5 @@
 let __ = undefined;
-
-xdescribe('Destructuring', () => {
+describe('Destructuring', () => {
   describe('Object - Getting User Info...', () => {
     function getUserInfo() {
       return {
@@ -18,6 +17,9 @@ xdescribe('Destructuring', () => {
     // TODO: Retrieve the user's id, name as fullName and twitter handle from getUserInfo
     it('With ES5', () => {
       let userInfo = getUserInfo();
+      let id = userInfo.id;
+      let fullName = userInfo.name;
+      let twitter = userInfo.handles.twitter;
 
       expect(id).toBeDefined();
       expect(fullName).toEqual('Davy Engone');
@@ -26,7 +28,11 @@ xdescribe('Destructuring', () => {
 
     it('With ES6 object Destructuring to do the same operation', () => {
       // TODO Extract the required information using the spread operator.
-      const {} = getUserInfo();
+      const {
+        id,
+        name: fullName,
+        handles: { twitter },
+      } = getUserInfo();
       expect(id).toBeDefined();
       expect(fullName).toEqual('Davy Engone');
       expect(twitter).toEqual('davyengone');
@@ -44,22 +50,27 @@ xdescribe('Destructuring', () => {
     ];
 
     it('With ES5', () => {
+      let first = fruits[0];
+      let last = fruits.slice(-1)[0];
       expect(first).toEqual('brussels sprout');
       expect(last).toEqual('cherry');
     });
 
     it('With ES6', () => {
       // TODO: Get the first fruit
+      let [first] = fruits;
       expect(first).toEqual('brussels sprout');
       // TODO: Get the last fruit
+      let { [fruits.length - 1]: last } = fruits;
       expect(last).toEqual('cherry');
+      // TODO: Get the queue fruit;
     });
 
     it('With ES6 & default value', () => {
       let dog = 'Larry';
       let cat;
 
-      let actual;
+      let actual = [dog, (cat = 'Katy')];
       const result = ['Larry', 'Katy'];
       expect(actual).toEqual(result);
     });
@@ -79,8 +90,8 @@ xdescribe('Destructuring', () => {
       let actual = [];
 
       // TODO: Write the destructuring and the push statement to satisfy all assertions
-      for (let {} of people) {
-        actual.push();
+      for (let { name, age } of people) {
+        actual.push(`${name} ${age}`);
       }
 
       expect(actual).toEqual(['Mike 35', 'Tom 25']);
@@ -89,7 +100,13 @@ xdescribe('Destructuring', () => {
 
   describe('Object - Drawing Chart...', () => {
     it("With ES6 & a function parameter's default value", () => {
-      function drawES6Chart() {}
+      function drawES6Chart({
+        size = 'big',
+        cords = { x: 0, y: 0 },
+        radius = 25,
+      } = {}) {
+        return [size, cords, radius];
+      }
 
       let actual = drawES6Chart();
       expect(actual).toEqual(['big', { x: 0, y: 0 }, 25]);

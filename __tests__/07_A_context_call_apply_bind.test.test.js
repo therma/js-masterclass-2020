@@ -1,6 +1,5 @@
 let __ = undefined;
-
-xdescribe('Context in JavaScript', () => {
+describe('Context in JavaScript', () => {
   describe('Should use call & apply', () => {
     function upperCase() {
       return this.toUpperCase();
@@ -16,7 +15,7 @@ xdescribe('Context in JavaScript', () => {
 
     it('with call', () => {
       // TODO Modify the call below to satisfy all the assertions below.
-      const actual = upperCase();
+      const actual = upperCase.call('juan');
 
       expect(actual).toEqual('JUAN');
     });
@@ -25,14 +24,14 @@ xdescribe('Context in JavaScript', () => {
       const numberToUse = 5.56789;
 
       // TODO Modify the call below to satisfy all the assertions below.
-      const actual = toFixed();
+      const actual = toFixed.call(numberToUse, 2);
 
       expect(actual).toEqual('5.57');
     });
 
     it('with apply and arguments', () => {
       // TODO Modify the code below to satisfy all the assertions below.
-      const actual = concat();
+      const actual = concat.apply([1, 2], [[3, 4]]);
 
       expect(actual).toEqual([1, 2, 3, 4]);
     });
@@ -51,7 +50,7 @@ xdescribe('Context in JavaScript', () => {
           done();
         }
       }
-      setInterval(increment, 30);
+      setInterval(increment.bind(counter), 30);
     });
 
     it('push a new user after 1s', (done) => {
@@ -64,7 +63,7 @@ xdescribe('Context in JavaScript', () => {
         expect(this.members.length).toEqual(2);
         done();
       }
-      setTimeout(addMembers, 1000);
+      setTimeout(addMembers.bind(hackcamp), 1000);
     });
   });
 
@@ -74,13 +73,25 @@ xdescribe('Context in JavaScript', () => {
       return this.mentors;
     }
 
+    it('Should add new mentor ', () => {
+      const company = {
+        name: 'Hackages Lab',
+        mentors: [],
+        addMentor: addMentor,
+      };
+      addMentor.call(company, 'Alex');
+      addMentor.call(company, 'Juan');
+
+      expect(company.mentors).toEqual(['Alex', 'Juan']);
+    });
+
     it('Should switch the context', () => {
       const hackcamp = {
         mentors: ['Eric', 'Martine'],
       };
       const davy = 'Joker';
 
-      let actual = addMentor(davy);
+      let actual = addMentor.call(hackcamp, davy);
 
       // TODO Modify the code above to satisfy all the assertions below.
       expect(actual).toEqual(['Eric', 'Martine', 'Joker']);
@@ -89,7 +100,7 @@ xdescribe('Context in JavaScript', () => {
         mentors: ['Harold', 'Bouba', 'Antonio'],
       };
 
-      actual = addMentor(davy);
+      actual = addMentor.call(hackjam, davy);
 
       // TODO Modify the code above to satisfy all the assertions below.
       expect(actual).toEqual(['Harold', 'Bouba', 'Antonio', 'Joker']);
@@ -103,6 +114,7 @@ xdescribe('Context in JavaScript', () => {
         function init() {
           this.name = args.name;
         }
+        init.call(this);
       }
       const actual = new User({ name: 'Hackages' });
 
@@ -119,12 +131,15 @@ xdescribe('Context in JavaScript', () => {
        * Ex: const user = User({ name: 'Hackages' })
        */
       function User(args) {
+        let user = {};
         function init() {
           this.name = args.name;
         }
+        init.call(user);
+        return user;
       }
 
-      const actual = {}; // TODO
+      const actual = User({ name: 'Hackages' });
 
       expect(actual).toEqual({ name: 'Hackages' });
     });

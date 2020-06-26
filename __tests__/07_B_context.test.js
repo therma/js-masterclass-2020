@@ -1,12 +1,11 @@
 let __ = undefined;
-
-xdescribe('Context with "this"', () => {
+describe('Context with "this"', () => {
   it('"this" and the new keyword', () => {
     function User(login) {
       this.login = login;
     }
 
-    const user = __;
+    const user = new User('Victor');
 
     expect(user).toBeDefined();
     expect(user.login).toEqual('Victor');
@@ -18,7 +17,7 @@ xdescribe('Context with "this"', () => {
         return 'Hello, my name is ' + this.name;
       },
     };
-    expect(person.intro()).toEqual(__);
+    expect(person.intro()).toEqual('Hello, my name is bob');
   });
 
   describe('call vs apply vs bind', () => {
@@ -30,8 +29,7 @@ xdescribe('Context with "this"', () => {
         },
       };
 
-      // calling a function with 'call' lets us assign "this" explicitly
-      const message = person.intro.call({ __: 'Frank' });
+      const message = person.intro.call({ name: 'Frank' });
       expect(message).toEqual('Hello, my name is Frank');
     });
     it('"this" set explicitly with apply', function () {
@@ -42,8 +40,7 @@ xdescribe('Context with "this"', () => {
         },
       };
 
-      // calling a function with 'apply' lets us assign "this" explicitly
-      const message = person.intro.apply({ __: 'Frank' });
+      const message = person.intro.apply({ name: 'Frank' });
       expect(message).toEqual('Hello, my name is Frank');
     });
 
@@ -55,7 +52,7 @@ xdescribe('Context with "this"', () => {
         },
       };
 
-      const intro = person.intro({ name: 'Marta' });
+      const intro = person.intro.bind({ name: 'Marta' });
 
       expect(intro()).toEqual('Hello, my name is Marta');
     });

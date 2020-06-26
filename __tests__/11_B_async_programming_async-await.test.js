@@ -5,17 +5,16 @@ const url = 'https://api.coinpaprika.com/v1/coins';
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
 
 let __ = undefined;
-
-xdescribe('Async await', () => {
+describe('Async await', () => {
   describe('Basic async await', () => {
     it('Should display Resolved', (done) => {
       //TODO Fix this function in order to make the test pass with async/await
-      function func() {
+      async function func() {
         const prom = () =>
           new Promise((resolve) => {
             setTimeout(() => resolve('Resolved'), 100);
           });
-        const res = prom();
+        const res = await prom();
         expect(res).toEqual('Resolved');
         done();
       }
@@ -23,10 +22,10 @@ xdescribe('Async await', () => {
       func();
     });
 
-    it('Make this code work with async/await', (done) => {
+    it('Make this code work with async/await', async (done) => {
       const coinId = 'btc-bitcoin';
-      let result = axios.get(`${url}/${coinId}`);
-      expect('Bitcoin').toEqual(__);
+      let result = await axios.get(`${url}/${coinId}`);
+      expect('Bitcoin').toEqual(result.data.name);
       done();
     });
 
@@ -40,9 +39,11 @@ xdescribe('Async await', () => {
           setTimeout(() => resolve(2), 200);
         });
 
-      function addResultOfPromises(promise1, promise2) {
+      async function addResultOfPromises(promise1, promise2) {
         //TODO write code that will wait until both promises (written above) resolve and then sum their result
-        const res = null;
+        const res = await Promise.all([prom1(), prom2()]).then(
+          ([res1, res2]) => res1 + res2
+        );
         expect(res).toEqual(4);
         done();
       }

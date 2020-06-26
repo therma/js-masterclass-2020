@@ -2,7 +2,7 @@
 // You can find more information about arrow-function mdn by following the link below
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
 let __ = undefined;
-xdescribe('Arrow function', () => {
+describe('Arrow function', () => {
   describe('Invoked through call or apply', () => {
     it('Should not bind this through call', () => {
       const person = {
@@ -40,19 +40,19 @@ xdescribe('Arrow function', () => {
 
       let actual = person.add(1);
 
-      expect(actual).toEqual(__);
+      expect(actual).toEqual(2);
 
       actual = person.addThruCall(1);
 
-      expect(actual).toEqual(__);
+      expect(actual).toEqual(2);
 
       actual = person.addThruApply(1);
 
-      expect(actual).toEqual(__);
+      expect(actual).toEqual(2);
     });
   });
   describe('Used as methods', () => {
-    it('Should return undefined', () => {
+    it('Should manage method', () => {
       const person = {
         age: 10,
         getAge: function () {
@@ -65,11 +65,11 @@ xdescribe('Arrow function', () => {
 
       let actual = person.getAge();
 
-      expect(actual).toEqual(__);
+      expect(actual).toEqual(10);
 
       actual = person.getAgeByArrow();
 
-      expect(actual).toEqual(__);
+      expect(actual).toEqual(undefined);
     });
   });
 
@@ -78,11 +78,11 @@ xdescribe('Arrow function', () => {
       function Person() {
         this.age = 10;
 
-        setTimeout(function () {
+        setTimeout(() => {
           this.age++;
           expect(this.age).toEqual(11);
 
-          done(); // done is function used by mocha to manage the async call
+          done(); // done is function used by jest to manage the async call
         }, 0);
       }
 
@@ -95,7 +95,7 @@ xdescribe('Arrow function', () => {
         }
 
         let actual = it(42)();
-        expect(actual).toEqual(__);
+        expect(actual).toEqual(42);
       });
       it('Should override the argument object of foo()', () => {
         function foo(i) {
@@ -107,7 +107,7 @@ xdescribe('Arrow function', () => {
 
         let actual = foo(1);
 
-        expect(actual).toEqual(__);
+        expect(actual).toEqual(3);
       });
       it('Should use the argument object of bar', () => {
         function bar(j) {
@@ -117,14 +117,24 @@ xdescribe('Arrow function', () => {
 
         let actual = bar(1);
 
-        expect(actual).toEqual(__);
+        expect(actual).toEqual(3);
       });
     });
   });
 
   describe('Add function...', () => {
     // TODO Implement the add function below to satisfy all the assertions below.
-    const add = function () {};
+    const add = function (a, b) {
+      if (
+        arguments.length < 2 ||
+        Array.from(arguments).some((n) => typeof n !== 'number')
+      ) {
+        throw new Error();
+      }
+      return Array.from(arguments).reduce(function (acc, value) {
+        return acc + value;
+      });
+    };
 
     it('Should return 5 when passing 2 and 3', () => {
       const actual = add(2, 3);
@@ -156,7 +166,7 @@ xdescribe('Arrow function', () => {
       const cart = {
         owner: 'Davy',
         fruits: ['apple', 'banana'],
-        printFruits: () => {
+        printFruits: function () {
           return [
             `${this.owner} bought ${this.fruits[0]}`,
             `${this.owner} bought ${this.fruits[1]}`,

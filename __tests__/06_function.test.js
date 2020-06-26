@@ -1,8 +1,9 @@
 let __ = undefined;
-
-xdescribe('About Functions', () => {
+describe('About Functions', () => {
   it('should declare function: add', () => {
-    // Create the add function
+    function add(first, second) {
+      return first + second;
+    }
     expect(add(1, 2)).toEqual(3);
   });
 
@@ -18,13 +19,13 @@ xdescribe('About Functions', () => {
       return message;
     }
 
-    expect(getMessage()).toEqual(__);
-    expect(overrideMessage()).toEqual(__);
-    expect(message).toEqual(__);
+    expect(getMessage()).toEqual('Outer');
+    expect(overrideMessage()).toEqual('Inner');
+    expect(message).toEqual('Inner');
   });
 
   it('should have default argument', () => {
-    function getMessage(message) {
+    function getMessage(message = 'no message') {
       return `Message: ${message}`;
     }
 
@@ -41,7 +42,7 @@ xdescribe('About Functions', () => {
       }
       return childfunction();
     }
-    expect(parentfunction()).toEqual(__);
+    expect(parentfunction()).toEqual('local');
   });
 
   it('should use lexical scoping to synthesise functions', () => {
@@ -55,7 +56,7 @@ xdescribe('About Functions', () => {
     const mysteryFunction3 = makeMysteryFunction(3);
     const mysteryFunction5 = makeMysteryFunction(5);
 
-    expect(mysteryFunction3(10) + mysteryFunction5(5)).toEqual(__);
+    expect(mysteryFunction3(10) + mysteryFunction5(5)).toEqual(23);
   });
 
   it('should manage arguments', () => {
@@ -63,16 +64,18 @@ xdescribe('About Functions', () => {
       return firstArg;
     }
 
-    expect(firstFunction('first', 'second', 'third')).toEqual(__);
+    expect(firstFunction('first', 'second', 'third')).toEqual('first');
 
     function secondFunction(firstArg, secondArg) {
       return secondArg;
     }
 
-    expect(secondFunction('arguments')).toEqual(__);
+    expect(secondFunction('arguments')).toEqual(undefined);
 
     // TODO: Fix the function to return all arguments.
-    function returnAllArgs() {}
+    function returnAllArgs() {
+      return Array.from(arguments);
+    }
 
     expect(returnAllArgs('first', 'second', 'third')).toEqual([
       'first',

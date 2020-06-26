@@ -1,6 +1,5 @@
 let __ = undefined;
-
-xdescribe('Class inheritance ES6 ', () => {
+describe('Class inheritance ES6 ', () => {
   it('Should extends a class declaration/expression', () => {
     class Animal {
       constructor(name) {
@@ -26,11 +25,11 @@ xdescribe('Class inheritance ES6 ', () => {
     const d = new Dog('Mu');
     let actual = d.eat();
 
-    expect(actual).toEqual(__);
+    expect(actual).toEqual('Eating...');
 
     actual = d.speak();
 
-    expect(actual).toEqual(__);
+    expect(actual).toEqual(['Mu makes a noise', 'Mu barks']);
   });
 
   it('Should extends traditional function-based "classes" ', () => {
@@ -56,10 +55,10 @@ xdescribe('Class inheritance ES6 ', () => {
     const d = new Dog('Mu');
     let actual = d.eat();
 
-    expect(actual).toEqual(__);
+    expect(actual).toEqual('Eating...');
 
     actual = d.speak();
 
-    expect(actual).toEqual(__);
+    expect(actual).toEqual('Mu barks');
   });
 });

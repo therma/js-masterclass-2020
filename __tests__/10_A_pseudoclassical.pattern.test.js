@@ -1,6 +1,5 @@
 let __ = undefined;
-
-xdescribe('JavaScript Inheritance Pseudoclassical Patterns', () => {
+describe('JavaScript Inheritance Pseudoclassical Patterns', () => {
   // base Animal object
   const Animal = function (name) {
     this.name = name;
@@ -21,10 +20,10 @@ xdescribe('JavaScript Inheritance Pseudoclassical Patterns', () => {
   const dog = new Male('dog');
   it('Analysing an instance of Male', () => {
     // What will be his gender?
-    expect(dog.gender).toEqual(__);
+    expect(dog.gender).toEqual('Male');
 
     // What will be his name ?
-    expect(dog.getName()).toEqual(__);
+    expect(dog.getName()).toEqual('dog');
   });
 
   const Female = function (name) {
@@ -40,11 +39,11 @@ xdescribe('JavaScript Inheritance Pseudoclassical Patterns', () => {
   const cat = new Female('cat');
   it('Analysing an instance of Female', () => {
     // What will be his gender?
-    expect(cat.gender).toEqual(__);
+    expect(cat.gender).toEqual('Female');
 
     // What will be their names?
-    expect(cat.getName()).toEqual(__);
-    expect(dog.getName()).toEqual(__);
+    expect(cat.getName()).toEqual('CAT');
+    expect(dog.getName()).toEqual('dog');
   });
 
   it('reference prototype', () => {
@@ -56,7 +55,7 @@ xdescribe('JavaScript Inheritance Pseudoclassical Patterns', () => {
       return 'MALE';
     };
 
-    expect(animal.getName()).toEqual(__);
-    expect(dog.getName()).toEqual(__);
+    expect(animal.getName()).toEqual('MALE');
+    expect(dog.getName()).toEqual('MALE');
   });
 });

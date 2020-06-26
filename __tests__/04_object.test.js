@@ -1,15 +1,14 @@
 let __ = undefined;
-
-xdescribe('Objects', () => {
+describe('Objects', () => {
   it('object type', () => {
     const empty_object = {};
-    expect(typeof empty_object).toEqual(__);
+    expect(typeof empty_object).toEqual('object');
   });
 
   it('object literal notation', () => {
     let person = {
-      __: __,
-      __: __,
+      name: 'Amory Blaine',
+      age: 102,
     };
     expect('Amory Blaine').toEqual(person.name);
     expect(102).toEqual(person.age);
@@ -17,16 +16,16 @@ xdescribe('Objects', () => {
 
   it('dynamically adding properties', () => {
     const person = {};
-    person.__ = 'Amory Blaine';
-    person.__ = 102;
+    person.name = 'Amory Blaine';
+    person.age = 102;
     expect('Amory Blaine').toEqual(person.name);
     expect(102).toEqual(person.age);
   });
 
   it('adding properties from strings', () => {
     const person = {};
-    person['__'] = 'Amory Blaine';
-    person['__'] = 102;
+    person['name'] = 'Amory Blaine';
+    person['age'] = 102;
     expect('Amory Blaine').toEqual(person.name);
     expect(102).toEqual(person.age);
   });
@@ -41,10 +40,11 @@ xdescribe('Objects', () => {
     };
 
     // Create a copy of the object to manipulate it
-    let result = __;
+    let result = Object.assign({}, person, { six: 'six' });
+    delete result.five;
 
     expect(person).not.toBe(result);
-    expect(person).toEqual({
+    expect(result).toEqual({
       one: 'one',
       two: 'two',
       three: 'three',
@@ -55,7 +55,7 @@ xdescribe('Objects', () => {
 
   it('return the number of keys', () => {
     let person = { name: 'Amory', age: 24, isAdmin: true };
-    const nbKeys = __;
+    const nbKeys = Object.keys(person).length;
     expect(nbKeys).toEqual(3);
   });
 
@@ -63,6 +63,7 @@ xdescribe('Objects', () => {
     let person = { name: 'Amory', age: 24, isAdmin: true };
     function hasKey(value) {
       // return true if person has a key named `value`. Otherwise return false
+      return person.hasOwnProperty(value);
     }
     expect(hasKey('name')).toEqual(true);
     expect(hasKey('company')).toEqual(false);
@@ -71,7 +72,13 @@ xdescribe('Objects', () => {
   it('lowercase key names', () => {
     let person = { Name: 'Amory', Age: 24, IsAdmin: true };
 
-    let result = __;
+    let result = {};
+
+    for (let k in person) {
+      let propertyName = `${k.slice(0, 1).toLowerCase()}${k.slice(1)}`;
+      result[propertyName] = person[k];
+    }
+
     expect(result).toEqual({ name: 'Amory', age: 24, isAdmin: true });
   });
 });
